@@ -1,6 +1,7 @@
 <template>
-  <!-- <Loading :active="isLoading"></Loading> -->
-  <div class="text-end">
+  <LoadIng :active="isLoading"></LoadIng>
+
+  <div class="text-end mt-3">
     <!-- $refs.productModal 指向定義元件(productModal)，呼叫它裡面的方法 -->
     <!-- $refs.productModal.showModal() -->
     <button class="btn btn-primary" type="button"
@@ -25,8 +26,10 @@
       <tr v-for="item in products" :key="item.id">
         <td>{{ item.category}}</td>
         <td>{{ item.title }}</td>
-        <td class="text-right">{{ item.origin_price }}</td>
-        <td class="text-right">{{ item.price }}</td>
+        <td class="text-right">{{ $filters.currency(item.origin_price) }}</td>
+        <!-- currency(item.origin_price) -->
+        <td class="text-right">{{ $filters.currency(item.price) }}</td>
+        <!-- currency(item.price) -->
         <td>
           <span class="text-success" v-if="item.is_enabled">啟用</span>
           <span class="text-muted" v-else>未啟用</span>
@@ -45,52 +48,74 @@
       </tr>
     </tbody>
   </table>
+
+  <!-- Model -->
   <!-- 前內(內層:product)後外(外層:tempProduct) -->
   <!-- tempProduct(外層) >>(props傳送) :product="tempProduct" >>(接收) product(內層) -->
   <!-- 接收(前內後外) : update-product(前:內層元件) >> updateProduct(外:接收函式) -->
-  <ProductModal ref="productModal"
+  <ProductModal
+  ref="productModal"
   :product="tempProduct"
   @update-product="updateProduct"
   ></ProductModal>
+
+  <!-- 分頁 -->
+  <!-- emit-pages:內層事件名稱，觸發 getProducts事件 -->
+  <Pagination :pages="pagination"
+  @emit-pages="getProducts"
+  ></Pagination>
+
+  <!-- del -->
   <DelModal :item="tempProduct" ref="delModal" @del-item="delProduct"></DelModal>
 </template>
 
 <script>
+// 分頁
+import Pagination from '@/components/PaginAtion.vue'
+// Model
 // import ProductModal from '../components/ProductModal.vue'
 import ProductModal from '@/components/ProductModal.vue'
+// del
 import DelModal from '@/components/DelModal.vue'
+// import { currency } from '../methods/filters'
 
 export default {
   data () {
     return {
+      // 產品資訊
       products: [],
+      // 產品暫存
+      tempProduct: {},
       // 分頁資訊
       pagination: {},
-      tempProduct: {},
       // 判斷是否是新增項目
       isNew: false,
       isLoading: false
     }
   },
-  // 區域註冊，把 ProductModal載入進來
+
   components: {
+    // 區域註冊，把 ProductModal載入進來
     ProductModal,
+    Pagination,
     DelModal
   },
 
-  // 使用 inject就不用一直載入套件
-  // inject: ['emitter'],
+  // 使用 inject就不用一直載入套件(No import 套件)
+  inject: ['emitter'],
 
   methods: {
 
-    // 產品資訊(+s，複數形式呈現)
-    getProducts () {
-      // 以下為取的遠端資訊的路徑
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`
+    // 千分號
+    // currency,
 
+    // 產品資訊(+s，複數形式呈現)
+    getProducts (page = 1) {
       // 每次取資料前就會執行 Loading 打開
       this.isLoading = true
 
+      // 以下為取的遠端資訊的路徑 /api/:api_path/admin/products?page=:page
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products/?page=${page}`
       // API 是用 get傳輸，因不需要資料，可以拿掉 this.user
       this.$http.get(api)
         .then((res) => {
@@ -106,7 +131,7 @@ export default {
         })
     },
 
-    // ======== 遠端資料傳送 ========
+    // ======== Modal ========
 
     // isNew:新增項目 item:編輯項目
     openModal (isNew, item) {
@@ -124,6 +149,7 @@ export default {
       const productComponent = this.$refs.productModal
       productComponent.showModal()
     },
+
     // 外層所傳送的資料先儲存(item)，並且發送到遠端(this.tempProduct, this.$http.post)
     updateProduct (item) {
       // console.log(item)
@@ -142,30 +168,38 @@ export default {
       this.$http[httpMethod](api, { data: this.tempProduct })
         .then((response) => {
           console.log(response)
+
           // 關閉內層的 modal
           productComponent.hideModal()
+
           // 重新取的列表資料
           this.getProducts()
 
-          // toast(土司)元件:判斷成功或失敗，在來推送不同的訊息內容
-          if (response.data.success) {
-            this.getProducts()
-            // 成功觸發，push-message事件 > ToastMessages.vue > push-message元件
-            this.emitter.emit('push-message', {
-              style: 'success',
-              title: '更新成功'
-            })
-          } else {
-            this.emitter.emit('push-message', {
-              style: 'danger',
-              title: '更新失敗',
-              // 失敗的訊息內容(後端傳輸)
-              content: response.data.message.join('、')
-            })
-          }
+          // == toast(土司)元件:判斷成功或失敗，在來推送不同的訊息內容(2選1)
+          // pushMessageState.js
+          this.$httpMessageState(response, '更新產品資料')
+
+          // == toast(土司)元件:判斷成功或失敗，在來推送不同的訊息內容(2選1)
+          // if (response.data.success) {
+          //   // 重新取的列表資料
+          //   this.getProducts()
+          //   // 成功觸發，push-message事件 > ToastMessages.vue > push-message元件
+          //   this.emitter.emit('push-message', {
+          //     style: 'success',
+          //     title: '更新成功'
+          //   })
+          // } else {
+          //   this.emitter.emit('push-message', {
+          //     style: 'danger',
+          //     title: '更新失敗',
+          //     // 失敗的訊息內容(後端傳輸)
+          //     content: response.data.message.join('、')
+          //   })
+          // }
         })
     },
-    // ======== 開啟刪除 Modal ========
+
+    // ======== 刪除 Modal ========
     openDelProductModal (item) {
       this.tempProduct = { ...item }
       const delComponent = this.$refs.delModal

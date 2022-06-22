@@ -1,4 +1,6 @@
 <template>
+  <Loading :active="isLoading"></Loading>
+
   <div class="container mt-5">
     <form class="row justify-content-center"
       @submit.prevent="signIn"

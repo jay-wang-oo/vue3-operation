@@ -2,29 +2,31 @@
 
   <Navbar></Navbar>
   <div class="container-fluid mt-3 position-relative">
-    <!-- <ToastMessages></ToastMessages> -->
+    <ToastMessages></ToastMessages>
     <router-view/>
   </div>
 
 </template>
 
 <script>
-// import emitter from '@/methods/emitter'
+import emitter from '@/methods/emitter'
+import ToastMessages from '@/components/ToastMessages.vue'
 // 載入 NavBar.vue，到此頁面
 import Navbar from '../components/NavBar.vue'
 
 export default {
   // 區域註冊 Navbar
   components: {
-    Navbar
+    Navbar,
+    ToastMessages
   },
 
   // 讓內層元件可以使用外層功能
-  // provide () {
-  //   return {
-  //     emitter
-  //   }
-  // },
+  provide () {
+    return {
+      emitter
+    }
+  },
 
   created () {
     // https://developer.mozilla.org/zh-CN/docs/Web/API/Document/cookie
@@ -42,7 +44,7 @@ export default {
     const api = `${process.env.VUE_APP_API}api/user/check`
     this.$http.post(api, this.user)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         // 登入失敗就轉到 LogIn頁面
         if (!res.data.success) {
           this.$router.push('/login')
