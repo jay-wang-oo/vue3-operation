@@ -1,5 +1,5 @@
 <template>
-  <!-- <Loading :active="isLoading"></Loading> -->
+  <LoadIng :active="isLoading"></LoadIng>
 
   <div class="container">
     <div class="row mt-4">
@@ -118,38 +118,93 @@
       <!-- 購物車列表 -->
 
     </div>
-  </div>
 
-  <!-- del -->
-  <DelModal :item="cart" ref="delModal" @del-item="delProduct"></DelModal>
+    <!-- 輸入表單(結帳頁面) -->
+    <div class="my-5 row justify-content-center">
+      <VForm class="col-md-6" v-slot="{ errors }"
+      @submit="createOrder">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <VField id="email" name="email" type="email" class="form-control"
+          :class="{ 'is-invalid': errors['email'] }"
+          placeholder="請輸入 Email" rules="email|required"
+          v-model="form.user.email"></VField>
+          <ErrorMessage name="email" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="name" class="form-label">收件人姓名</label>
+          <VField id="name" name="姓名" type="text" class="form-control"
+          :class="{ 'is-invalid': errors['姓名'] }"
+          placeholder="請輸入姓名" rules="required"
+          v-model="form.user.name"></VField>
+          <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="tel" class="form-label">收件人電話</label>
+          <VField id="tel" name="電話" type="tel" class="form-control"
+          :class="{ 'is-invalid': errors['電話'] }"
+          placeholder="請輸入電話" rules="required"
+          v-model="form.user.tel"></VField>
+          <ErrorMessage name="電話" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="address" class="form-label">收件人地址</label>
+          <VField id="address" name="地址" type="text" class="form-control"
+          :class="{ 'is-invalid': errors['地址'] }"
+          placeholder="請輸入地址" rules="required"
+          v-model="form.user.address"></VField>
+          <ErrorMessage name="地址" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="message" class="form-label">留言</label>
+          <textarea name="" id="message" class="form-control" cols="30" rows="10"
+                    v-model="form.message"></textarea>
+        </div>
+        <div class="text-end">
+          <button class="btn btn-danger">送出訂單</button>
+        </div>
+      </VForm>
+    </div>
+    <!-- 輸入表單(結帳頁面) -->
+
+  </div>
 
 </template>
 
 <script>
-// del
-import DelModal from '@/components/DelModal.vue'
 
 export default {
   data () {
     return {
       products: [],
       product: {},
+      cart: {},
+      // 優惠碼
+      coupon_code: '',
+      // 輸入表單(結帳頁面)
+      form: {
+        user: {
+          name: '',
+          email: '',
+          tel: '',
+          address: ''
+        },
+        message: ''
+      },
       // 按鈕讀取效果:當 loadingItem有品項時，按鈕就會 disabled並加上讀取狀態
       status: {
         loadingItem: '' // 對應品項 id
       },
-      cart: {},
-      coupon_code: '',
       isLoading: false
     }
   },
 
-  components: {
-    DelModal
-  },
-
   methods: {
-    // ======== 加入產品列表 ========
+    // ======== 取得商品列表_all ========
     getProducts () {
       // 每次取資料前就會執行 Loading 打開
       this.isLoading = true
@@ -165,6 +220,7 @@ export default {
         })
     },
 
+    // ======== 產品頁面 ========
     getProduct (id) {
       this.$router.push(`/user/product/${id}`)
     },
@@ -172,25 +228,25 @@ export default {
     // ======== 加入購物車 ========
     addCart (id) {
       // console.log(id)
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
-
       // 按鈕讀取效果
       this.status.loadingItem = id
 
+      // [參數]: { "data": { "product_id":"-L9tH8jxVb2Ka_DYPwng","qty":1 } }
       // cart內會建立兩筆資料 product_id(String)(ID),qty(Number)(數量)
       const cart = {
         product_id: id,
         qty: 1
       }
 
-      // [參數]: { "data": { "product_id":"-L9tH8jxVb2Ka_DYPwng","qty":1 } }
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
       this.$http.post(api, { data: cart })
         .then((response) => {
-          // pushMessageState.js
-          this.$httpMessageState(response, '加入購物車')
           // 清空按鈕讀取效果
           this.status.loadingItem = ''
+          // pushMessageState.js
+          this.$httpMessageState(response, '加入購物車')
           console.log(response)
+          this.getCart()
         })
     },
 
@@ -198,6 +254,7 @@ export default {
     getCart () {
       // 每次取資料前就會執行 Loading 打開
       this.isLoading = true
+
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
       this.$http.get(url)
         .then((response) => {
@@ -214,56 +271,90 @@ export default {
     updateCart (item) {
       // 每次取資料前就會執行 Loading 打開
       this.isLoading = true
-
-      const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`
-
       // 避免重複觸發 API加上讀取效果
       this.status.loadingItem = item.id
 
+      // [參數]: { "data": { "product_id":"-L9tH8jxVb2Ka_DYPwng","qty":1 } }
       const cart = {
         product_id: item.product_id,
         qty: item.qty
       }
 
+      const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`
       this.$http.put(url, { data: cart })
         .then((res) => {
           // 讀取資料完就會執行 Loading 關閉
-          // this.isLoading = false
-          console.log(res)
+          this.isLoading = false
           // 清空讀取效果
           this.status.loadingItem = ''
+
+          console.log(res)
           this.getCart()
         })
     },
 
-    // ======== 刪除 Modal ========
+    // ======== 刪除購物車 ========
     removeCartItem (id) {
-      this.cart.product_id = id
-      console.log(this.cart.product_id)
-      console.log('id:', id)
-      // console.log(this.cart.carts)
-      // this.cart.carts.forEach((item) => {
-      //   console.log(item.id)
-      // })
-      // console.log(this.cart.carts)
-      const delComponent = this.$refs.delModal
-      delComponent.showModal()
-    },
-    delProduct () {
-      const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${this.tempProduct.id}`
-      this.$http.delete(url).then((response) => {
-        // console.log(response.data)
-        const delComponent = this.$refs.delModal
-        delComponent.hideModal()
-        this.getProducts()
+      // 每次取資料前就會執行 Loading 打開
+      this.isLoading = true
+      // 避免重複觸發 API加上讀取效果
+      this.status.loadingItem = id
+
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`
+      this.$http.delete(api).then((response) => {
+        // 讀取資料完就會執行 Loading 關閉
+        this.isLoading = false
+        // 避免重複觸發 API加上讀取效果
+        this.status.loadingItem = ''
+
+        // pushMessageState.js
+        this.$httpMessageState(response, '移除購物車品項')
+
+        this.getCart()
       })
+    },
+
+    // ======== 加入優惠碼 ========
+    addCouponCode () {
+      // 每次取資料前就會執行 Loading 打開
+      this.isLoading = false
+
+      // 範例： {
+      //   data: {
+      //     code: "testCode"
+      //   }
+      // }
+      const coupon = {
+        code: this.coupon_code
+      }
+
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`
+      this.$http.post(api, { data: coupon })
+        .then((res) => {
+          // 讀取資料完就會執行 Loading 關閉
+          this.isLoading = false
+          // pushMessageState.js
+          this.$httpMessageState(res, '加入優惠券')
+
+          // 更新金額
+          this.getCart()
+        })
+    },
+
+    // ======== 輸入表單(結帳頁面) ========
+    createOrder () {
+      const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order`
+      const order = this.form
+      this.$http.post(url, { data: order })
+        .then((res) => {
+          console.log(res)
+        })
     }
 
   },
 
   created () {
     this.getProducts()
-    this.getCart()
   }
 }
 // API 起手式

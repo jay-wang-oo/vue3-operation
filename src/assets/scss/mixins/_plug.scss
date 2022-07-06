@@ -1,0 +1,284 @@
+/*************************************
+*              表格
+**************************************/
+$t_color: #78A221;
+$t_width: 1px;
+$t_style: solid;
+$t_bg_color: #89B828 ;
+@mixin odd { background: lighten($t_color, 60%); }
+
+table.style_table { margin:0 0 20px 0; border-top: $t_color $t_width $t_style; border-left: $t_color $t_width $t_style;
+	th, td { padding:8px 10px; border-right: $t_color $t_width $t_style; border-bottom: $t_color $t_width $t_style; }
+	thead tr th { color: #fff; background-color: $t_bg_color; }
+	thead tr td { font-weight: bold; background-color: $t_bg_color; }
+	tr.odd { @include odd;  }
+	tbody.odd tr:nth-child(2n+2) { @include odd; }
+}
+
+table.style_table_left { margin:0 auto 20px auto; border-top: $t_color $t_width $t_style; border-left: $t_color $t_width $t_style;
+	th, td { padding:8px 10px; text-align: center; border-right: $t_color $t_width $t_style; border-bottom: $t_color $t_width $t_style; }
+	th { color: #fff; background-color: $t_bg_color; }
+	th.two { color: #fff;  background-color: darken($t_bg_color, 10%);}
+	td.one { background-color: #eee; }
+	tr.odd { @include odd; }
+	tbody.odd tr:nth-child(2n+2) { @include odd; }
+}
+
+// ------------------------ 文字  ------------------------
+.text_center { text-align: center; }
+.text_left { text-align: left; }
+.text_right { text-align: right; }
+
+// ------------------------ 圖片  ------------------------
+img.center { margin: 0 auto; display: block; }
+
+// ------------------------ 浮動 ------------------------
+.por { position: relative; }
+.poa {position: absolute; }
+.fl { float: left; }
+.fr { float: right; }
+
+// ------------------------ RWD 隱藏顯示處理 ------------------------
+.desktop {
+	@mixin mobile{
+		@media screen and (max-width: $mobile) { display: none; }
+	}
+	@mixin pad{
+		@media screen and (max-width: $pad) { display: block; }
+	}
+	@mixin desktop{
+		@media screen and (max-width: $desktop){ display: block; }
+	}
+}
+.desktop_table {
+	@mixin mobile{
+		@media screen and (max-width: $mobile) { display: none; }
+	}
+	@mixin pad{
+		@media screen and (max-width: $pad) { display: table; }
+	}
+	@mixin desktop{
+		@media screen and (max-width: $desktop){ display: table; }
+	}
+}
+.mobile {
+	@mixin mobile{
+		@media screen and (max-width: $mobile) { display: block; }
+	}
+	@mixin pad{
+		@media screen and (max-width: $pad) { display: none; }
+	}
+	@mixin desktop{
+		@media screen and (max-width: $desktop){ display: none; }
+	}
+}
+.mobile_table {
+	@mixin mobile{
+		@media screen and (max-width: $mobile) { display: table; }
+	}
+	@mixin pad{
+		@media screen and (max-width: $pad) { display: none; }
+	}
+	@mixin desktop{
+		@media screen and (max-width: $desktop){ display: none; }
+	}
+}
+
+// @include susy-at($medium) {
+// 	.desktop { display: block;}
+// 	.desktop_table { display: table;}
+// 	.mobile, .mobile_table { display: none;}
+// }
+// @include susy-at($mobile) {
+// 	.desktop, .desktop_table { display: none;}
+// 	.mobile { display: block;}
+// 	.mobile_table { display: table; }
+// }
+
+// ------------------------ clearfix  ------------------------
+@mixin clearfix() {
+	&::after {
+	  display: block;
+	  clear: both;
+	  content: "";
+	}
+}
+
+// ------------------------   footer 置底  ------------------------
+// html, body { height: 100%; }
+// #container { position: relative; min-height: 100%; }
+// footer { position: absolute; bottom: 0; }
+
+// ------------------------ 底部加陰影  ------------------------
+// box-shadow:0 2px 2px rgba(0,0,0,0.07);
+@mixin bottom_shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+
+// ------------------------ hover 下底線動畫  ------------------------
+// $line_bottom_color:#444;
+@mixin line_bottom($line_bottom_color) {
+	a {  width: auto; position: relative; display: inline-block; text-decoration: none;
+		&:hover { color: $line_bottom_color; }
+	}
+	a::before { content: ""; width: 100%; height: 1px; position: absolute; bottom: -.3rem; left: 0; background: $line_bottom_color; transform: scaleX(0); transform-origin: right top; transition: transform .9s cubic-bezier(.19,1,.22,1); }
+	a:hover::before { transform-origin: left top; transform: scale(1); }
+}
+
+// ------------------------  表格圓角  ------------------------
+// $table_radius_bg_color:#ddd;
+@mixin t_radius($radius, $table_radius_bg_color) { /* margin: 10px;  */border-spacing: 0; border-collapse: separate; border-top:$table_radius_bg_color 1px solid; border-right:$table_radius_bg_color 1px solid; border-bottom:$table_radius_bg_color 1px solid;
+	border-radius:$radius;
+	th { border-bottom: 1px solid $table_radius_bg_color; }
+	th, td { padding: 5px; border-left: 1px solid $table_radius_bg_color; }
+	thead:first-child tr:first-child > th:first-child, tbody:first-child tr:first-child > td:first-child, tbody:first-child tr:first-child > th:first-child {
+	    border-radius:$radius 0 0 0;
+	}
+	thead:last-child tr:last-child > th:first-child, tbody:last-child tr:last-child > td:first-child, tbody:last-child tr:last-child > th:first-child, tfoot:last-child tr:last-child > td:first-child, tfoot:last-child tr:last-child > th:first-child {
+	    border-radius:0 0 0 $radius;
+	}
+	// 橫向(標題左，內容右)
+	// tbody:first-child tr:first-child > td:last-child { border-radius: 0 $radius 0 0; }
+    // tbody:last-child tr:last-child > td:last-child { border-radius: 0 0 $radius 0; }
+
+}
+
+
+// ------------------------  自適寬度底圖 (Responsive Bg Image) 隨div大小改變自行縮放   ------------------------
+// padding-bottom: percentage($pw / $ph);
+//  @mixin responsive-image($pb) {
+// 	padding-bottom: $pb#{%};
+// 	display: flex;
+// 	width: 100%;
+// 	flex: 100%;
+// 	background-size: cover;
+// 	background-repeat: no-repeat;
+// 	background-position: center center;
+// }
+
+// ------------------------  底圖寬高  ------------------------
+// @include bg_Width(/images/slider-4-copy-2, png);
+@mixin bg_img($name,$bg) {
+	background: url($name + '.' + $bg);
+	width: image-width($name + '.' + $bg);
+	height: image-height($name + '.' + $bg);
+}
+
+// ------------------------  文替換圖  ------------------------
+// text-indent:-10000px;
+@mixin text-hide { white-space: nowrap; text-indent: 150%; overflow: hidden; }
+
+ // ------------------------  文字垂直水平置中  ------------------------
+@mixin font_center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; text-align: center; white-space: nowrap; }
+
+// ------------------------  定位置中  ------------------------
+// @include fixed_center(-50)
+@mixin fixed_center-1($width) {
+	position: fixed; z-index: 20000; margin:0 0px 0px #{$width}px; /*  調整水平垂直置中 */ left: 50%;
+}
+@mixin fixed_center-2 {
+	position: fixed; z-index: 20000; left: 50%; transform: translate(-50%, -50%);
+}
+
+// ------------------------  字句尾加點點點  ------------------------
+@mixin text_point {
+	text-overflow:ellipsis; white-space:nowrap; overflow:hidden;
+}
+
+// ------------------------  切角  ------------------------
+@mixin beveled-corners ($bg, $tl:0, $tr:$tl, $br:$tl, $bl:$tr){
+	background: $bg;
+	background:
+	linear-gradient( 135deg, transparent $tl, $bg 0) top  left,
+	linear-gradient( 225deg, transparent $tr, $bg 0) top  right,
+	linear-gradient( -45deg, transparent $br, $bg 0) bottom  right,
+	linear-gradient( 45deg, transparent $bl, $bg 0) bottom  left;
+	background-size:  50% 50%;
+	background-repeat: no-repeat;
+}
+
+// ------------------------  切內圓角  ------------------------
+@mixin angle-rounded ($bg, $tl:0, $tr:$tl, $br:$tl, $bl:$tr){
+	background: $bg;
+	background:
+	radial-gradient( circle at top left, transparent $tl, $bg 0) top  left,
+	radial-gradient( circle at top right, transparent $tr, $bg 0) top  right,
+	radial-gradient( circle at bottom right, transparent $br, $bg 0) bottom  right,
+	radial-gradient( circle at bottom left, transparent $bl, $bg 0) bottom  left;
+	background-size:  50% 50%;
+	background-repeat: no-repeat;
+}
+
+// ------------------------  Full Width background image  ------------------------
+// @include full_bg_img(90px, /images/slider-4-copy-2, png);
+@mixin full_bg_img($ph, $full_bg_img, $type) {
+	@include clearfix;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	padding: #{$ph} 0;
+	text-align: center;
+	background-attachment: fixed;
+	background-position: 50% 0px;
+	background-size:cover;
+	background-repeat: no-repeat;
+	background-image: url($full_bg_img + '.' + $type);
+	box-shadow:1px 1px 15px 1px #555 inset;
+}
+
+// ------------------------ ICON 滾動  ------------------------
+//  <a class="" href="">
+// 	<i class="fab fa-youtube"></i>
+// 	<i class="fab fa-youtube"></i>
+// </a>
+@mixin icon_roll($color, $bg, $bg_hover) {
+	a { width: 35px; height: 35px; padding-top: 2px; text-align: center; vertical-align: sub; text-decoration: none; color:$color; background-color:$bg; border-radius: 20px; overflow: hidden;
+		&:hover { background-color: $bg_hover;}
+		&:hover i:first-child { margin-top: -30px; }
+		i { position: relative; display: block; font-size: 1.2rem; line-height: 30px; transition: all 0.3s ease; }
+	}
+}
+
+// ------------------------   ICON 下陰影  ------------------------
+// $bg:#ddd;
+// $tb:#777;
+@mixin tb_data($color, $bg_color) {
+	overflow: hidden;
+	$tb: $color;
+	background-color: $bg_color;
+	text-shadow:
+		$tb 1px 1px 0, $tb 2px 2px 0, $tb 3px 3px 0, $tb 4px 4px 0, $tb 5px 5px 0, $tb 6px 6px 0, $tb 7px 7px 0, $tb 8px 8px 0, $tb 9px 9px 0, $tb 10px 10px 0,
+		$tb 11px 11px 0, $tb 12px 12px 0, $tb 13px 13px 0, $tb 14px 14px 0, $tb 15px 15px 0, $tb 16px 16px 0, $tb 17px 17px 0, $tb 18px 18px 0, $tb 19px 19px 0, $tb 20px 20px 0,
+		$tb 21px 21px 0, $tb 22px 22px 0, $tb 23px 23px 0, $tb 24px 24px 0, $tb 25px 25px 0, $tb 26px 26px 0, $tb 27px 27px 0, $tb 28px 28px 0, $tb 29px 29px 0, $tb 30px 30px 0,
+		$tb 31px 31px 0, $tb 32px 32px 0, $tb 33px 33px 0, $tb 34px 34px 0, $tb 35px 35px 0, $tb 36px 36px 0, $tb 37px 37px 0, $tb 38px 38px 0, $tb 39px 39px 0, $tb 40px 40px 0,
+		$tb 41px 41px 0, $tb 42px 42px 0, $tb 43px 43px 0, $tb 44px 44px 0, $tb 45px 45px 0, $tb 46px 46px 0, $tb 47px 47px 0, $tb 48px 48px 0, $tb 49px 49px 0, $tb 50px 50px 0,
+		$tb 51px 51px 0, $tb 52px 52px 0, $tb 53px 53px 0, $tb 54px 54px 0, $tb 55px 55px 0, $tb 56px 56px 0, $tb 57px 57px 0, $tb 58px 58px 0, $tb 59px 59px 0, $tb 60px 60px 0,
+		$tb 61px 61px 0, $tb 62px 62px 0, $tb 63px 63px 0, $tb 64px 64px 0, $tb 65px 65px 0, $tb 66px 66px 0, $tb 67px 67px 0, $tb 68px 68px 0, $tb 69px 69px 0, $tb 70px 70px 0,
+		$tb 71px 71px 0, $tb 72px 72px 0, $tb 73px 73px 0, $tb 74px 74px 0, $tb 75px 75px 0, $tb 76px 76px 0, $tb 77px 77px 0, $tb 78px 78px 0, $tb 79px 79px 0, $tb 80px 80px 0,
+		$tb 81px 81px 0, $tb 82px 82px 0, $tb 83px 83px 0, $tb 84px 84px 0, $tb 85px 85px 0, $tb 86px 86px 0, $tb 87px 87px 0, $tb 88px 88px 0, $tb 89px 89px 0, $tb 90px 90px 0,
+		$tb 91px 91px 0, $tb 92px 92px 0, $tb 93px 93px 0, $tb 94px 94px 0, $tb 95px 95px 0, $tb 96px 96px 0, $tb 97px 97px 0, $tb 98px 98px 0, $tb 99px 99px 0, $tb 100px 100px 0,
+		$tb 101px 101px 0, $tb 102px 102px 0, $tb 103px 103px 0, $tb 104px 104px 0, $tb 105px 105px 0, $tb 106px 106px 0, $tb 107px 107px 0, $tb 108px 108px 0, $tb 109px 109px 0, $tb 110px 110px 0,
+		$tb 111px 111px 0, $tb 112px 112px 0, $tb 113px 113px 0, $tb 114px 114px 0, $tb 115px 115px 0, $tb 116px 116px 0, $tb 117px 117px 0, $tb 118px 118px 0, $tb 119px 119px 0, $tb 120px 120px 0;
+}
+
+// ------------------------   CSS 背景圖樣  ------------------------
+
+// $coloraaa:rgba(140, 140, 140, .03);
+@mixin gradient-pattern($coloraaa) {
+  box-sizing: content-box;
+  border: none;
+  text-overflow: clip;
+  background: linear-gradient(-45deg, rgba(0,0,0,0) 0, rgba(0,0,0,0) 75%, $coloraaa 75%, $coloraaa 100%),
+  linear-gradient(45deg, $coloraaa 0, $coloraaa 25%, rgba(140,140,140,0) 25%, rgba(255,255,255,0) 100%),
+  linear-gradient(-45deg, $coloraaa 0, $coloraaa 25%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 100%),
+  linear-gradient(45deg, rgba(0,0,0,0) 0, rgba(0,0,0,0) 75%, $coloraaa 75%, $coloraaa 100%), rgb(255, 255, 255);
+  background-origin: padding-box;
+  background-clip: border-box;
+  background-size: 50px 50px;
+}
+
+// ------------------------  form - checkbox   ------------------------
+// html
+// <input type="checkbox" checked><label for=""></label>
+// css
+// label { width: 100%; height: 100%; cursor: pointer; display: inline-block; }
+// input[type=checkbox] { width: 100%; height: 100%; display: none; }
+// input[type=checkbox]:checked + label { padding-top: 5px; background-color: #ddd; border-radius: 10px; }

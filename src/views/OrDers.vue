@@ -1,5 +1,5 @@
 <template>
-  <!-- <Loading :active="isLoading"></Loading> -->
+  <LoadIng :active="isLoading"></LoadIng>
 
   <table class="table mt-4">
     <thead>
@@ -94,11 +94,11 @@ export default {
 
     // 訂單資訊(+s，複數形式呈現)
     getOrders (page = 1) {
-      // 頁籤
-      this.page = page
-
       // 每次取資料前就會執行 Loading 打開
       this.isLoading = true
+
+      // 頁籤
+      this.page = page
 
       // 以下為取的遠端資訊的路徑 /api/:api_path/admin/orders?page=:page
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/orders/?page=${page}`
@@ -134,7 +134,7 @@ export default {
     // 外層所傳送的資料先儲存(item)，並且發送到遠端(this.tempOrder, this.$http.post)
     updateOrder (item) {
       // console.log(item)
-
+      // 每次取資料前就會執行 Loading 打開
       this.isLoading = true
 
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${item.id}`
@@ -143,11 +143,12 @@ export default {
       }
       this.$http.put(api, { data: paid })
         .then((response) => {
+          // 讀取資料完就會執行 Loading 關閉
           this.isLoading = false
-
-          this.getOrders(this.page)
           // pushMessageState.js
           this.$httpMessageState(response, '更新付款狀態')
+
+          this.getOrders(this.page)
         })
     },
 
@@ -157,13 +158,17 @@ export default {
       const delComponent = this.$refs.delModal
       delComponent.showModal()
     },
-    delOrder () {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${this.tempOrder.id}`
 
+    delOrder () {
+      // 每次取資料前就會執行 Loading 打開
       this.isLoading = true
 
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${this.tempOrder.id}`
       this.$http.delete(api)
         .then((res) => {
+          // 讀取資料完就會執行 Loading 關閉
+          this.isLoading = false
+
           console.log(res)
           const delComponent = this.$refs.delModal
           delComponent.hideModal()

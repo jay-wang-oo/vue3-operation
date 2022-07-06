@@ -1,19 +1,25 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'CruiseHome',
+    component: () => import('@/views/CruiseHome.vue')
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/cruise_about',
+    name: 'CruiseAbout',
+    component: () => import('@/views/CruiseAbout.vue')
+  },
+  {
+    path: '/cruise_fleet',
+    name: 'CruiseFleet',
+    component: () => import('@/views/CruiseFleet.vue')
+  },
+  {
+    path: '/cruise_travel',
+    name: 'CruiseTravel',
+    component: () => import('@/views/CruiseTravel.vue')
   },
   {
     path: '/login',
@@ -48,6 +54,11 @@ const routes = [
       {
         path: 'product/:productId',
         component: () => import('../views/UserProduct.vue')
+      },
+      {
+        // orderId取回同一筆訂單
+        path: 'checkout/:orderId',
+        component: () => import('../views/UserCheckout.vue')
       }
     ]
   }

@@ -1,0 +1,201 @@
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+// html { font-size: 62.5%; @include rem(line-height, 24px);}
+
+// 免使用在繁體中文的 font-size設定值: 1~7pt, 15pt, 1~11px, 14px, 20px。
+
+// ====================================================== //
+
+// ------------------------  字體陰影  ------------------------
+// *{text-shadow:0.02em 0.02em 0.02em !important;}
+
+// ------------------------  字體樣式  ------------------------
+// *:not([class*="icon"]):not(i){font-family: "Droid Sans Fallback" !important;}
+
+//第一段就不解釋了，就是為字體加上陰影，陰影的粗細可以自行調整上述三個數值來達到想要的效果，但是相關設定的意義請自行查詢就是。
+
+//在第二段「字體樣式」中，其中 "Droid Sans Fallback" 就是要使用的字體，各位可以依照自己的需求去修改字體，不一定要和我的一樣。
+//這一段的意思就是說，對於所有網頁中不屬於圖示或斜體的內容類型，瀏覽器都會優先使用我在這裡指定的自訂字型，而不是那些網頁中的指定字型。
+
+// ====================================================== //
+
+// Google 黑體
+// @import url(https://fonts.googleapis.com/earlyaccess/cwtexhei.css);
+//font-family: 'cwTeXHei', sans-serif;
+
+// Google 明體
+// @import url(https://fonts.googleapis.com/earlyaccess/cwtexming.css);
+//font-family: 'cwTeXMing', serif;
+
+// Google 楷體
+//@import url(https://fonts.googleapis.com/earlyaccess/cwtexkai.css);
+//font-family: 'cwTeXKai', serif;
+
+// Google 圓體
+// @import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+// font-family: 'cwTeXYen', sans-serif;
+
+// Google 仿宋體
+// @import url(https://fonts.googleapis.com/earlyaccess/cwtexfangsong.css);
+// font-family: 'cwTeXFangSong', serif;
+
+// Google Noto Sans TC (思原黑體-繁)
+// @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap');
+// font-family: 'Noto Sans TC', sans-serif;
+
+// Google Noto Serif TC (思原明體-繁)
+// @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300&display=swap');
+// font-family: 'Noto Serif TC', serif;
+
+// 思原繁體中文
+// @import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+// font-family: 'cwTeXFangSong', serif;
+
+// 思原簡體中文
+// @import url(https://fonts.googleapis.com/earlyaccess/notosanssc.css);
+// font-family: 'Noto Sans SC', sans-serif;
+
+// 英文字型 ==============================================================
+// 
+// 
+
+// 英文字型(襯線) ==============================================================
+// Playfair Display
+// @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+// font-family: 'Playfair Display', serif;
+
+// 數字,英文 字型 ==============================================================
+// Bitter
+// @import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
+// font-family: 'Bitter', serif;
+
+// Graduate
+// @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+// font-family: 'Fjalla One', sans-serif;
+
+// 數字用字型 ==============================================================
+// Montserrat
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+// font-family: 'Montserrat', sans-serif;
+
+// Fjalla One
+// @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+// font-family: 'Fjalla One', sans-serif;
+
+
+
+
+// ====================================================== //
+
+body {
+	font-family:  "Microsoft YaHei","微软雅黑", "Microsoft Jhenghei","微軟正黑體", 'Meiryo', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: 300;
+	-webkit-text-size-adjust: none;
+	//-webkit-text-size-adjust: 100%;
+	// -webkit-font-smoothing: antialiased; --- Chrom 字體平滑
+	// -moz-osx-font-smoothing: grayscale; --- MAC FireFox 字體平滑
+	text-rendering: optimizeLegibility;
+	color: #444;
+}
+
+// #{headings()} {
+// 	// @include reset-box-model;
+// 	font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", serif;
+// 	font-weight: 400;
+// 	color: black;
+// }
+
+h1,h2,h3,h4,h5,h6 { margin-top: 0; color: #444; font-family:"Microsoft YaHei","微软雅黑", "Microsoft Jhenghei","微軟正黑體", 'Arimo', sans-serif; letter-spacing:1px; }
+
+h1 {
+	//@include rem(font-size, 32px);
+	//@include rem(line-height, 36px);
+	//@include rem(margin, 0 0 16px 0);
+	// @include adjust-font-size-to(32px, 1.5); // 34sp/45sp/56sp/112sp 超大号文字
+	// @include trailer(1);
+	// font-size: 2em; line-height: 1.125em; margin-bottom: 1.5em;
+	//  @include typi('h1');
+	font-size: calc(1.375rem + 1.5vw);
+	margin-bottom: vr(1);  // 1.5em
+}
+
+h2 {
+	//@include rem(font-size, 23px);
+	//@include rem(margin, 0 0 16px 0);
+	// @include adjust-font-size-to(24px); // 24sp 大标题
+	// @include trailer(1);
+	// @include typi('h2');
+	font-size: calc(1.325rem + .9vw);
+	margin-bottom: vr(1);  // 1.5em
+}
+
+h3 {
+	//@include rem(font-size, 16px);
+	//@include rem(margin, 0 0 16px 0);
+	//  font-size: 1.25em; line-height: 1.2em; // 20sp App bar文字
+	// @include trailer(1);
+	// @include typi('h3');
+	font-size: calc(1.3rem + .6vw);
+	margin-bottom: vr(1);  // 1.5em
+}
+
+h4 {
+	//@include rem(font-size, 16px);
+	//@include rem(margin, 0 0 16px 0);
+	//  font-size: 1.125em; line-height: 1.33em; // 16sp（桌面端15sp） 小标题
+	// @include trailer(1);
+	// @include typi('h4');
+	font-size: calc(1.275rem + .3vw);
+	margin-bottom: vr(1);  // 1.5em
+}
+
+h5 {
+	//  font-size: 1em; line-height: 1.5em;
+	// @include typi('h5');
+	font-size: 1.25rem;
+}
+h6 { 
+	// @include typi('h6'); 
+	font-size: 1rem;
+}
+
+p, li {
+	font-family:"Microsoft YaHei","微软雅黑",'Meiryo', "Microsoft Jhenghei","微軟正黑體", "新細明體", 'Roboto', Tahoma, Geneva, sans-serif;
+	//@include rem(font-size, 13px);
+	//@include rem(line-height, 18px);
+	//@include rem(margin, 0 0 16px 0);
+	// @include adjust-font-size-to(16px, 1.1); // 14sp（桌面端13sp） 正文/按钮文字
+	// @include trailer(1);
+	// letter-spacing:1px;
+	// @include typi('p');
+	font-size: 1rem;
+	line-height: 1.5;
+	margin-bottom: vr(1);  // 1.5em
+}
+p:last-child, li:last-child { margin-bottom: 0; }
+
+th, td {
+	// font-size: 1em; line-height: 1.5em;
+	font-size: 1rem;
+}
+
+p.small {
+	// @include adjust-font-size-to(14px, .8); // 12sp 小字提示
+	// letter-spacing:1px;
+	// font-size: 0.8125em; line-height: 1.4769em;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+ul { line-height: 1;
+	li {
+		//@include rem(margin, 0 0 6px 0);
+		//@include trailer(1/4);
+		margin-bottom: vr(.25) ;  // 0.375em
+	}
+	li:last-child { margin-bottom: 0; }
+}
+

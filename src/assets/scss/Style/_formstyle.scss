@@ -1,0 +1,24 @@
+// bootstrap 移除樣式
+//  body .form-control[disabled],  body .form-control[readonly],  body fieldset[disabled] .form-control { background-color: #fff; }
+// 手風琴
+// .accordion{.card-header{padding:0;h2{line-height:1;}}button{width:100%;text-align:left;}button:hover[type="button"]{transform:scale(1);}}
+/* ==========================================================================
+   form
+   ========================================================================== */
+
+/* ====================  input  ==================== */
+input[type="text"]::placeholder, input[type="tel"]::placeholder, input[type="mail"]::placeholder {color: #aaa;  }
+
+/* ==================== Select ==================== */
+select::placeholder {color: #aaa;  }
+
+/* ==================== textarea ==================== */
+textarea::placeholder {color: #aaa;  }
+
+/* ==================== checkbox, radio ==================== */
+// input[type="checkbox"], input[type="radio"]  { zoom:180%; vertical-align: middle; }
+// 區塊內滿版表單css設定
+input.full[type="checkbox"], input.full[type="radio"] { -moz-appearance:none; border-radius:inherit; cursor:pointer; height:100%; left:0px; margin:0; max-height:100%; max-width:100%; min-height:100%; min-width:100%; opacity:0; outline:0 none; position:absolute;top:0px; width:100%; z-index:2;}
+
+/* ==================== Button ==================== */
+button:hover[type="button"], input:hover[type="button"], input:hover[type="submit"], input:hover[type="reset"] { transform: scale(.95); }

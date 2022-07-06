@@ -1,0 +1,21 @@
+
+// ------------------------ Bootstrap Accordion 手風琴 Ui  ------------------------
+.accordion { 
+    button.accordion-button { transform: scale(1); }    
+}
+
+// ------------------------ slick 輪撥  ------------------------
+@mixin slick_arrow { width: 30px; height: 60px; top:25%; position: absolute; border: 0px none; @include text-hide; }
+$dots_color:#f9f9f9;
+$dots_color_active:#1F7E6C;
+
+.slick-prev { @include slick_arrow; right:-30px; background: url(../images/angle-right.svg)no-repeat 0px 0px/ cover; }
+.slick-next { @include slick_arrow; left:-30px;background: url(../images/angle-left.svg)no-repeat 0px 0px/ cover; }
+ul.slick-dots { padding: 0; margin: 10px auto 0; text-align: center; list-style-type: none; 
+    li { margin: 0 1.5px; display: inline-block; text-align: center; 
+        button { width: 17px; height: 17px;  background-color: $dots_color; border-radius: 20px; border: 0px none; @include text-hide; }
+    }
+    li.slick-active {
+        button { background-color: $dots_color_active; }
+    }
+}

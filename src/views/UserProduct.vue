@@ -1,5 +1,5 @@
 <template>
-  <Loading :active="isLoading"></Loading>
+  <LoadIng :active="isLoading"></LoadIng>
 
   <div class="container">
     <nav aria-label="breadcrumb">
@@ -68,24 +68,24 @@ export default {
 
     // ======== 加入購物車 ========
     addToCart (id, qty = 1) {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
-
       // 按鈕讀取效果
       this.status.loadingItem = id
 
+      // [參數]: { "data": { "product_id":"-L9tH8jxVb2Ka_DYPwng","qty":1 } }
       // cart內會建立兩筆資料 product_id(String)(ID),qty(Number)(數量)
       const cart = {
         product_id: id,
         qty
       }
 
-      // [參數]: { "data": { "product_id":"-L9tH8jxVb2Ka_DYPwng","qty":1 } }
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
       this.$http.post(api, { data: cart })
         .then((response) => {
-          // pushMessageState.js
-          this.$httpMessageState(response, '加入購物車')
           // 清空按鈕讀取效果
           this.status.loadingItem = ''
+          // pushMessageState.js
+          this.$httpMessageState(response, '加入購物車')
+
           this.$router.push('/user/cart')
           console.log(response.data)
           // console.log(response.data.message)
@@ -94,7 +94,10 @@ export default {
     }
   },
   created () {
+    // 取出 id
+    // this.$route.params.productId，從網址列取的 productId
     this.id = this.$route.params.productId
+    console.log(this.id)
     this.getProduct()
   }
 }

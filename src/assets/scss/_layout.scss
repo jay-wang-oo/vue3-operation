@@ -1,0 +1,241 @@
+
+// ------------------------ RWD  ------------------------
+// device
+$mobile: 576px;
+$pad: 768px;
+$desktop: 992px;
+$desktop-big:1190px;
+@mixin mobile{
+	@media screen and (max-width: $mobile) { @content; }
+}
+@mixin pad{
+	@media screen and (max-width: $pad) { @content; }
+}
+@mixin desktop{
+	@media screen and (max-width: $desktop-big){ @content; }
+}
+// @mixin desktop-big{
+// 	@media screen and (max-width: $desktop-big){ @content; }
+// }
+
+
+// @media screen and (max-width:480px){
+// }
+// @media screen and (max-width:768px){
+// }
+// @media screen and (max-width:1190px){
+// }
+
+
+// 範例寫法：
+// .box{
+// 	width: 100px;
+// 	height: 100px;
+// 	background: black;
+// 	@include pad{
+// 	  background:blue;
+// 	}
+// 	@include mobile{
+// 	  background:red;
+// 	}
+//   }
+
+// Bootstrap Rwd
+// @media (min-width: 576px) {
+// }
+// @media (min-width: 768px) {
+// }
+// @media (min-width: 992px) {
+// }
+// @media (min-width: 1200px) {
+// }
+
+
+/* ************************************/
+/*              body                  */
+/**************************************/
+
+html {  box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
+// body { }
+
+@mixin clearfix() {
+	&::after {
+	  display: block;
+	  clear: both;
+	  content: "";
+	}
+}
+
+.row { @include clearfix; box-sizing: border-box; }
+
+// #container { }
+#content { @include clearfix; }
+
+/* ************************************/
+/*              NavBar                */
+/**************************************/
+.webNav { width: 98%; margin: 0 1%; top: 0; position: absolute; z-index: 9999; @include clearfix; }
+
+.logo { width: 150px; margin-top: 5px; float: left; background-color: rgba(#ddd, .8);
+	img { width: 100%; }
+}
+
+@mixin span_item { display: inline-block; vertical-align: middle; width: 20px; height: 2px; background-color: $main_color; }
+nav { float: right; padding: 10px 20px; margin-top: 10px; background-color: #eee; border-radius: 10px;
+	ul { padding: 0; margin: 0; display: inline-block; list-style-type: none; }
+	li { margin-left: 20px; display: inline-block; text-align: center; }
+	li:first-child { margin-left: 0; }
+	a { text-decoration: none; color: #090742; letter-spacing:1px; 
+		&:hover { color: #090742; }
+	}
+	span{ position: relative; display: block; font-size: .85rem; color: $main_color; letter-spacing:0px; }
+	span:before { content:''; margin-right: 5px; @include span_item;  }
+	span:after { content:''; margin-left: 5px; @include span_item; }
+	.car { margin-left: 10px; display: inline-block; text-align: center; }
+}
+
+/* ************************************/
+/*              header                */
+/**************************************/
+header.header_web { width: 100%; padding: 5px 10px; top: 0; position:fixed; z-index:9999; background-color: #eee; @include clearfix; transition: background .4s ease-in;
+	// .logo_box {  }
+}
+
+/* ************************************/
+/*              nav               */
+/**************************************/
+$color-white: #ffffff;
+$color-black: #121212;
+$color-pink: #9D801C;
+// $shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+.header { width: 100%; height: auto; padding: 10px 0; position: fixed; left: 0; top: 0; z-index: 999; background: $color-white; @include bottom_shadow; @include clearfix;
+	.head_box { width: 1140px; margin: 0 auto; }
+	.nav_box { max-width: 100%; height: auto; padding: 0; display: block; justify-content: space-between; align-items: center; gap: 2rem;
+		h1.logo { width: 200px; height: 65px; float: left; margin: 10px auto 0;  @include text-hide;
+			a { height: 100%; display: block; border: none; outline: none; color: #444; text-transform: capitalize; text-rendering: optimizeLegibility; -webkit-transition: all 0.35s ease; -o-transition: all 0.35s ease; transition: all 0.35s ease; }
+		} //background: url(../images/logo.svg)no-repeat 0px 0px/100%;
+	}
+	.nav_bar { max-width: 100%; height: auto; }
+	.menu { width: 50%; float: right; padding: 0; margin: 0; text-align: center; display: grid; grid-gap: 10px; grid-template-columns: repeat(4, auto);;
+		> .menu-item { position: relative; display: inline-block; margin: 0 0.75rem;
+			> a { padding: 1rem 0; display: block; border: none; outline: none; color: $color-black; text-transform: capitalize; text-rendering: optimizeLegibility; transition: all 0.35s ease; text-decoration: none;
+				.expand { width: 0.75rem; height: 0.75rem; margin-left: 0.35rem; position: relative; display: inline-block; border: none; outline: none; pointer-events: none;
+					&:before, &:after {  content: ''; width: 100%; height: 2px; left: 50%; top: 50%; position: absolute; box-sizing: inherit; background: $color-black; transform: translate(-50%, -50%); transition: all 0.35s ease; }
+				}
+			}
+			&:hover {
+				> a { color: $color-pink;
+					.expand {
+						&::before, &::after { background: $color-pink;}
+					}
+				}
+			}
+			> {
+				a .expand {
+					&::after { transform: translate(-50%, -50%) rotate(-90deg);}
+				}
+				.sub-menu {
+					> .menu-item {
+						> a:hover { color: $color-pink; }
+					}
+				}
+		  	}
+			> .sub-menu { width: 13rem; height: auto; padding: 0; left: -1rem; top: 100%; position: absolute; border: none; outline: none; opacity: 0; visibility: hidden; border-top: 3px solid $color-pink; background: $color-white;  @include bottom_shadow; transform: translateY(1rem); transition: all 0.35s ease;
+				> .menu-item { display: block;
+					> a { padding: 0.5rem 1.25rem; display: block; color: $color-black; text-transform: capitalize; text-rendering: optimizeLegibility; transition: all 0.35s ease; text-decoration: none;
+						&:hover { color: #fff; background-color:$color-pink ;}
+					}
+				}
+			}
+		}
+	}
+	.opened-menu { width: 2rem; height: 1rem; margin-right: 10px; display: none; position: relative; border: none; outline: none; opacity: 0; visibility: hidden; cursor: pointer; background: none; transform: rotate(0deg); transition: all 0.35s ease;
+		span { width: 100%; height: 2px; display: block; left: 0; position: absolute; border: none; outline: none; opacity: 1; border-radius: 0.25rem; background: $color-black; transform: rotate(0deg); transition: all 0.25s ease;
+		  &:nth-child(1) { top: 0; }
+		  &:nth-child(2),&:nth-child(3) { top: 0.5rem; }
+		  &:nth-child(4) { top: 1rem; }
+		}
+	}
+	.closed-menu { width: 2.5rem; height: 2.5rem;  display: none; align-items: center; justify-content: center; cursor: pointer; border: none; outline: none; background: none;
+		img.closed-icon { width: 1rem; height: auto; display: block; }
+	}
+	.overlay { width: 100%; height: 100%; left: 0; top: 0; position: fixed; z-index: 999; opacity: 0; visibility: hidden; background: rgba(0, 0, 0, 0.6); transition: all 0.35s ease; }
+}
+
+// Section: Media Query
+@media only screen and (min-width: 993px) {
+	.header {
+		.menu {
+		  > .menu-item-has-children:hover > {
+				.sub-menu { display: block; opacity: 1; visibility: visible; transform: translateY(0); }
+				a .expand::after { transform: translate(-50%, -50%) rotate(0deg); }
+			}
+		}
+	}
+}
+
+// Section: Media Query
+@media only screen and (max-width: 992px) {
+	.header {
+		.head_box { width: 100%; padding-right: var(--bs-gutter-x,.55rem); padding-left: var(--bs-gutter-x,.55rem); }
+		.nav_box { display: flex;
+			h1 { margin: 0; }
+		}
+		.overlay {
+			&.active { display: block; opacity: 1; visibility: visible; }
+		}
+		.nav_bar { width: 18rem; height: 100%; padding: 1rem 0; top: 0; left: -18rem; position: fixed; z-index: 999; opacity: 0; overflow-y: auto; visibility: hidden; background: $color-white;  @include bottom_shadow; transition: all 0.5s ease;
+			&.active { left: 0rem; opacity: 1; visibility: visible; }
+			&::-webkit-scrollbar { width: 5px; }
+			&::-webkit-scrollbar-thumb { border-radius: 1rem; background: darken($color-white, 10); box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.12); }
+		}
+		.menu { width: 100%; height: auto; margin-top: 40px; display: block;
+			> {
+				.menu-item { margin: 0; display: block; text-align: left; }
+				.menu-item-has-children > a { display: flex; justify-content: space-between; align-items: center; }
+				.menu-item {
+					> a { padding: 0.75rem 1rem; color: $color-black; border-bottom: 1px solid darken($color-white, 5); }
+					&:first-child > a { border-top: 1px solid darken($color-white, 5); }
+					> a .expand {
+						&::before, &::after { background: $color-black; }
+					}
+				}
+				.menu-item-has-children.active > a .expand:after { transform: translate(-50%, -50%) rotate(0deg); }
+			 	.menu-item > .sub-menu { width: 100%; max-height: 0; padding: 0px; top: auto; left: auto; position: relative; border: none; outline: none; opacity: 1; overflow: hidden; visibility: visible; background: transparent; box-shadow: none; transform: translateY(0px);
+					> .menu-item { margin: 0; }
+					> .menu-item > a { padding: 0.75rem 2rem; color: $color-white; background-color: $color-pink; border-bottom: 1px solid darken($color-pink, 5%);
+					 &:hover { color:$color-black; }
+					}
+				}
+			}
+		}
+	   .opened-menu { display: block; opacity: 1; visibility: visible; }
+	   .closed-menu { position: absolute; display: flex; top: .5rem; right: 0.5rem;}
+	}
+}
+
+
+// 錨點 增加偏移值
+#D1:before, #D2:before , #D3:before , #D4:before  { display: block; content: " "; margin-top: -60px; height: 60px; visibility: hidden; }
+
+/* ************************************/
+/*              footer                */
+/**************************************/
+
+footer { @include clearfix; position: relative;
+	img { width: 100%; }
+}
+.footer_bar { width: 100%; padding: 5px 10px; bottom: 0; position: absolute; z-index: 10; background-color: rgba(#fff, .7); @include clearfix;
+	.community { float: left;
+		a { color: #444; display: block; }
+		ul { padding: 0; margin: 0; list-style-type: none; }
+		li { margin-right: 10px; display: inline-block; }
+		svg { height: 30px; vertical-align: baseline; }
+		a.fb svg { height: 30px; }
+		a.tripadvisor img { height: 23px; vertical-align: baseline; }
+	}
+	.copyright { float: right; text-align: right;}
+}

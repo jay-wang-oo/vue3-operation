@@ -1,0 +1,41 @@
+$t_color:#aaa;
+$t_width:1px;
+$t_style: solid;
+$t_bg_color:#60371c;
+
+ // ------------------------   responsive Table  ------------------------
+@include desktop {
+	table.responTable { width: 100%; margin: 0 auto 20px auto; border-top: $t_color $t_width $t_style; border-left: $t_color $t_width $t_style; text-rendering: optimizeLegibility;
+		thead tr th,  thead tr td,  tbody tr th,  tbody tr td { color: #fff; padding: 5px; border-right: $t_color $t_width $t_style; border-bottom: $t_color $t_width $t_style;  }
+		thead tr th a, thead tr td a,  tbody tr th a, tbody tr td a { min-width: 26px; display: inline-block; *display: inline; *zoom: 1; text-decoration: underline; margin: 0 5px 0 0; cursor: pointer; }
+		thead tr th { text-align: center; background:$t_bg_color; }
+		tbody tr td { color:#444; }
+		tr.odd { background: lighten($t_color, 15%); }
+		tbody.odd tr:nth-child(2n+2) { background: lighten($t_color, 15%);  }
+	}
+}
+
+@include pad {
+	table.responTable { width: 100%; margin: 0 auto 20px auto; border-top: $t_color $t_width $t_style; border-left: $t_color $t_width $t_style; text-rendering: optimizeLegibility;
+		thead tr th,  thead tr td,  tbody tr th,  tbody tr td {  color: #fff; padding: 5px; border-right: $t_color $t_width $t_style; border-bottom: $t_color $t_width $t_style; }
+		thead tr th a, thead tr td a,  tbody tr th a, tbody tr td a {min-width: 26px; display: inline-block; *display: inline; *zoom: 1; text-decoration: underline; margin: 0 5px 0 0; cursor: pointer; }
+		thead tr th { text-align: center; background:$t_bg_color; }
+		tbody tr td { color:#444; }
+		tr.odd { background: lighten($t_color, 15%); }
+		tbody.odd tr:nth-child(2n+2) { background: lighten($t_color, 15%);  }
+	}
+}
+
+@include mobile {
+	table.responTable { display: block; border: none;
+		thead { display: none; }
+		tbody tr {  position: relative; display: block; margin: 0 0 10px 0;  }
+		tbody tr td {  color: #444; position: relative; margin-bottom:0; background: #ffffff; display: inline-block; width: 100%; padding: 0; vertical-align: middle; border-top: $t_color $t_width $t_style; border-right: $t_color $t_width $t_style; border-left: $t_color $t_width $t_style; box-sizing: border-box; }
+		tbody tr td:last-child {  border-bottom: $t_color $t_width $t_style; }
+		tbody tr td div {  color:#444; display: table-cell; padding: 5px; text-align: left; border-left: $t_color $t_width $t_style;   }
+		tbody tr td div a { display: block; text-decoration: underline; margin: 0 0 5px 0; }
+		tbody tr td:first-child { /* background: $t_bg_color; */ }
+		tbody tr td:before { color: #fff; background: $t_bg_color; content: attr(data-th); display: table-cell; left: 0; width: 100px; margin: 0 5px 0 0; padding: 0 5px; /* border-right: $t_color $t_width $t_style; */ vertical-align: middle; box-sizing: border-box; }
+		tbody tr:not(:last-child) { border-right: none; border-bottom: none; }
+	}
+}

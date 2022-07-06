@@ -2,8 +2,11 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
 
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous" @click.prevent="updatePagePrevious">
+      <!-- 當現在頁碼等於1不能按前一頁  -->
+      <li class="page-item"
+      :class="{'disabled':pages.current_page === 1}"
+      >
+        <a class="page-link" href="#" aria-label="Previous" @click.prevent="updatePage(pages.current_page - 1)">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
@@ -20,8 +23,10 @@
         </a>
       </li>
 
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next" @click.prevent="updatePageNext">
+      <li class="page-item"
+      :class="{'disabled':pages.current_page === pages.total_pages}"
+      >
+        <a class="page-link" href="#" aria-label="Next" @click.prevent="updatePage(pages.current_page + 1)">
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
@@ -39,19 +44,6 @@ export default {
     updatePage (page) {
       // emit-pages:切換頁面事件名稱（往外送），觸發外層事件 ProDucts > @emit-pages
       this.$emit('emit-pages', page)
-    },
-    // 下一頁
-    updatePageNext () {
-      console.log(this.pages.current_page)
-      // page = this.pages.current_page++
-      // this.$emit('emit-pages', page)
-    },
-    // 上一頁
-    updatePagePrevious () {
-      if (this.pages.current_page > 1) {
-        // page = this.pages.current_page--
-        // this.$emit('emit-pages', page)
-      }
     }
   }
 }

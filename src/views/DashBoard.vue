@@ -1,6 +1,6 @@
 <template>
 
-  <Navbar></Navbar>
+  <AdminNav></AdminNav>
   <div class="container-fluid mt-3 position-relative">
     <ToastMessages></ToastMessages>
     <router-view/>
@@ -12,12 +12,12 @@
 import emitter from '@/methods/emitter'
 import ToastMessages from '@/components/ToastMessages.vue'
 // 載入 NavBar.vue，到此頁面
-import Navbar from '../components/NavBar.vue'
+import AdminNav from '../components/AdminNav.vue'
 
 export default {
-  // 區域註冊 Navbar
+  // 區域註冊 AdminNav
   components: {
-    Navbar,
+    AdminNav,
     ToastMessages
   },
 
