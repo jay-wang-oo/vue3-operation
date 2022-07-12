@@ -14,7 +14,7 @@ import VueAxios from 'vue-axios'
 import Loading from 'vue3-loading-overlay'
 import 'vue3-loading-overlay/dist/vue3-loading-overlay.css'
 // ======== Bootstrap ========
-import 'bootstrap'
+import 'bootstrap' // Bootstrap JS
 import 'bootstrap-icons/font/bootstrap-icons.css'
 // ======== VeeValidate 表單驗證 ========
 import { Form, Field, ErrorMessage, defineRule, configure } from 'vee-validate'

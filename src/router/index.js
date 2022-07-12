@@ -3,39 +3,39 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name: 'CruiseHome',
-    component: () => import('@/views/CruiseHome.vue')
+    name: 'BoardHome',
+    component: () => import('@/views/BoardHome.vue')
   },
   {
-    path: '/cruise_about',
-    name: 'CruiseAbout',
-    component: () => import('@/views/CruiseAbout.vue')
+    path: '/boardAbout',
+    name: 'BoardAbout',
+    component: () => import('@/views/BoardAbout.vue')
   },
   {
-    path: '/cruise_fleet',
-    name: 'CruiseFleet',
-    component: () => import('@/views/CruiseFleet.vue')
+    path: '/boardProducts',
+    name: 'BoardProducts',
+    component: () => import('@/views/BoardProducts.vue')
   },
   {
-    path: '/cruise_travel',
-    name: 'CruiseTravel',
-    component: () => import('@/views/CruiseTravel.vue')
+    path: '/boardCar',
+    name: 'BoardCar',
+    component: () => import('@/views/BoardCar.vue')
   },
   {
     path: '/login',
-    component: () => import('../views/LogIn.vue')
+    component: () => import('../views/admin/LogIn.vue')
   },
   {
-    path: '/dashboard',
-    component: () => import('../views/DashBoard.vue'),
+    path: '/admin',
+    component: () => import('../views/admin/DashBoard.vue'),
     children: [
       {
         path: 'products',
-        component: () => import('../views/ProDucts.vue')
+        component: () => import('../views/admin/ProDucts.vue')
       },
       {
         path: 'order',
-        component: () => import('../views/OrDers.vue')
+        component: () => import('../views/admin/OrDers.vue')
       },
       {
         path: 'coupons',

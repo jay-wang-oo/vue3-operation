@@ -1,4 +1,5 @@
 @mixin span_itemBM { display: inline-block; vertical-align: middle; width: 40px; height: 2px; background-color: $main_color; }
+.title_box {  width: 100%; text-align: center; }
 h2.title_font { margin: 40px auto; position: relative; display: inline-block; font-size: 1.4rem; color: $main_color; text-align: center;
     span { display: block; font-size: .9rem; letter-spacing: 0px; }
 }
@@ -10,44 +11,49 @@ h2.title_font:after { content:''; right: -50px; top: 50%; position: absolute; @i
     img { width: 100%; }
 }
 
-/* ============================ CruiseHome ============================ */
+/* ============================ BoardHome ============================ */
 
-.BrandMission_img { position: relative;
-    img { width: 100%; font-size: 0; display: inline; vertical-align: top; }
-    .imgBox { width: 70%; display: grid; grid-template-columns: repeat(3, 1fr); }
-    .textBox { width: 30%; position: absolute; top: 26%; right: 0; text-align: center; }
-    // h2 { margin-bottom: 40px; position: relative; display: inline-block; font-size: 1.4rem; color: $main_color; text-align: center;
-    //     span { display: block; font-size: .9rem; }
-    // }
-    // h2:before { content:''; left: -50px; top: 50%; position: absolute; @include span_itemBM;  }
-	// h2:after { content:''; right: -50px; top: 50%; position: absolute; @include span_itemBM; }
-    p { text-align: center; font-size: 1.2rem; letter-spacing: 1.1px; }
+.carousel-caption { text-align: left; 
+    h2 { margin-bottom: 20px; color: #fff; letter-spacing: 6px; text-shadow: 1px 1px 5px #000; }
+    h5 { margin-bottom: 20px; color: #fff; text-shadow: 1px 1px 5px #444; }
+    a { padding: 7px 30px; color: #fff; border: #fff 1px solid; text-decoration: none; text-shadow: 1px 1px 5px #444; }
+}
+.Box_Code { width: 100%; background: url(@/assets/images/boxCode.jpg) no-repeat 0/cover; @include clearfix;
+    .form { padding: 100px 40px; }
+    input { width: 240px; float: left; border: 0 none; border-radius: 5px 0 0 5px; }
+    .btn { float: left; color: #fff; background-color: #074a88; border: 0 none; border-radius: 0 5px 5px 0; }
 }
 
-.FeaturedRecommended { width: 100%; text-align: center; background: url(@/assets/images/FeaturedRecommended_img.jpg)no-repeat 0px 0px/ cover;
-    ul { width: 90%; padding: 0 0 40px; margin: 0 auto; text-align: left; list-style-type: none; display: grid; grid-gap:20px; grid-template-columns: repeat(3, 1fr); place-items:center; }
-    img { width: 100%; margin-bottom: 5px; vertical-align: top; font-size: 0; }
-    a { text-decoration: none; }
-    h2, h2:before, h2:after { color: #fff; }
-    h2:before, h2:after { background-color: #fff; }
-    h3 { color: #fff; font-size: 1.3rem; }
-    p { margin: 0; color: #fff; }
-}
-
-.Box_Code { width: 100%; background: url(@/assets/images/boxCode.jpg)no-repeat 0px center/ cover;
-    .form { padding: 100px 40px; @include clearfix; }
-    input { width: 240px; float: left; border: 0px none; border-radius: 5px 0 0 5px; }
-    .btn { float: left; color: #fff; background-color: $main_color; border: 0px none; border-radius: 0 5px 5px 0; }
-}
-
-/* ============================ CruiseAbout ============================ */
-.introduction {  width: 100%; margin-bottom: 40px; text-align: center; }
-.about_box { @include clearfix; background: url(@/assets/images/about_img.jpg)no-repeat left center/ 65%; }
-.about_text { float: right; width: 35%; padding: 50px 40px 80px; 
+/* ============================ BoardAbout 衝浪客的浪漫 ============================ */
+.introduction { margin-bottom: 40px; }
+.about_box { @include clearfix; background: url(@/assets/images/about_left_img.jpg)no-repeat left center/ 65%; }
+.about_text { float: right; width: 35%; padding: 50px 40px 80px;  text-align: left;
     p { margin-bottom: 40px; letter-spacing: 2px; }
+    span.no-lp { letter-spacing: 0px; }
 }
 
-/* ============================ CruiseFleet ============================ */
+/* ============================ BoardProduct 衝浪客的神奇武器 ============================ */
+.superweapon {width: 96%; margin: 0 auto; @extend .introduction; display: grid; grid-gap:30px; grid-template-columns: .3fr 1fr; }
+.SWproducts { padding-bottom: 30px;  margin-bottom: 30px; border-bottom: #aaa 1px dotted; 
+    img { width: 60%; margin-right: 10px; display: inline-block; vertical-align: middle; }
+    .product_title { width: 38%; display: inline-block; vertical-align: middle; 
+        p { word-wrap:break-word; }
+    }
+    .product_text { width: 100%; margin-top: 10px; display: block; 
+        button[type="button"] { float: right; margin-left: 10px; }
+    }
+    .price_box { padding: 3px 0 3px; position: relative; vertical-align: top; display: inline-block; background-color: $main_color; border-radius: 5px 0 0 5px;
+        div, del { margin-left:10px; display: inline-block; color: #fff; }
+        h5, h6 { margin-bottom: 0; }
+    }
+    .price_box:after { content:''; position: absolute; top: 0; width: 0;
+        height: 0;
+        border-top: 32px solid $main_color;
+        border-right: 40px solid transparent;}
+}
+
+
+/* ============================ CruiseFleet 艦隊 ============================ */
 .starfleet { width: 100%; margin-bottom: 40px; text-align: center; 
     img { width: 100%; vertical-align: top; font-size: 0; }
     svg { height: 50px; padding: 10px 0; margin: 0 auto; display: block; text-align: center; }
@@ -85,8 +91,32 @@ ul.fleetItem { padding: 0; margin: 0; list-style-type: none; display: grid; grid
         }
     }
 }
-/* ============================ CruiseVacation ============================ */
-.vacation { width: 100%; margin-bottom: 40px; text-align: center; }
+/* ============================ CruiseVacation 假期 ============================ */
+.vacation { width: 100%; margin: 0 0 40px; text-align: center; }
+.vacationItem { padding: 50px 80px; margin: 0 auto; text-align: left; list-style-type: none; background: url(@/assets/images/FeaturedRecommended_img.jpg)no-repeat 0px center/ cover;
+    li { margin: 0 auto 30px; }
+    a { color: #444; display: block; text-decoration: none; }
+    img { margin: 0 30px 0 0; display: inline-block; }
+    .text_box { display: inline-block; vertical-align: middle; }
+    h3, h4, h6 { color: $main_color; }
+    h6 { margin: 20px 0 30px; }
+}
+.note { color: #fff; display: flex; justify-content: space-between;
+    ul { padding: 0; margin: 0; list-style-type: none; }
+    li { margin-bottom: 0; }
+}
+
+/* ============================ 查看更多 ============================ */
+
+.product_bar { vertical-align: top;
+    img {  margin: 0 30px 0 0; display: inline-block; vertical-align: top; font-size: 0; }
+    h2 { margin-bottom: 30px; }
+    .text_box { display: inline-block; }
+    .price_box { margin-bottom: 20px; display: block; 
+        div, del { margin-right: 10px; display: inline-block; }
+    }
+    .btn { margin-top: 10px; }
+}
 
 /* ============================ key in ============================ */
 

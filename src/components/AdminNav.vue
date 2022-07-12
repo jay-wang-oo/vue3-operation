@@ -9,9 +9,9 @@
 
       <div class="collapse navbar-collapse" id="navbarText">
         <div class="navbar-nav">
-          <router-link to="/dashboard/products" class="nav-link">產品</router-link>
-          <router-link to="/dashboard/order" class="nav-link">訂單</router-link>
-          <router-link to="/dashboard/coupons" class="nav-link">優惠卷</router-link>
+          <router-link to="/admin/products" class="nav-link">產品</router-link>
+          <router-link to="/admin/order" class="nav-link">訂單</router-link>
+          <router-link to="/admin/coupons" class="nav-link">優惠卷</router-link>
           <a href="#" @click.prevent="logout" class="nav-link">登出</a>
         </div>
       </div>
